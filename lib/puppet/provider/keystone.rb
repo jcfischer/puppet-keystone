@@ -21,7 +21,9 @@ class Puppet::Provider::Keystone < Puppet::Provider
   def self.get_admin_endpoint
     admin_port = keystone_file['DEFAULT']['admin_port'] ? keystone_file['DEFAULT']['admin_port'].strip : '35357'
     ssl = keystone_file['ssl'] && keystone_file['ssl']['enable'] ? keystone_file['ssl']['enable'].downcase : false
-    protocol = ssl ? 'https' : 'http'
+    if ssl
+      admin_port = keystone_file['DEFAULT']['internal_port'] ? keystone_file['DEFAULT']['internal_port'].strip : '35357'
+    end
     if keystone_file and keystone_file['DEFAULT'] and keystone_file['DEFAULT']['bind_host']
       host = keystone_file['DEFAULT']['bind_host'].strip
       if host == "0.0.0.0"
@@ -30,7 +32,7 @@ class Puppet::Provider::Keystone < Puppet::Provider
     else
       host = "127.0.0.1"
     end
-    "#{protocol}://#{host}:#{admin_port}/v2.0/"
+    "http://#{host}:#{admin_port}/v2.0/"
   end
 
   def self.keystone_file
