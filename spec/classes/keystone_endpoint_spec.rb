@@ -56,36 +56,6 @@ describe 'keystone::endpoint' do
 
   end
 
-  describe 'with https as public_protocol' do
-
-
-
-    context 'without internal_port set' do
-
-      let :params do
-        {
-            :public_protocol => 'https'
-        }
-      end
-      it 'raises an error' do
-        expect { subject }.to raise_error(Puppet::Error, /you must set internal_port if using https/)
-      end
-    end
-
-    context 'with internal_port set' do
-      let :params do
-        {
-            :internal_port   => '12345',
-            :public_protocol => 'https'
-        }
-      end
-      it 'does not raise an error' do
-        expect { subject }.to_not raise_error
-      end
-    end
-
-
-  end
 
 
 end
