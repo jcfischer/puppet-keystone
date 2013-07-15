@@ -31,7 +31,7 @@ class keystone::endpoint(
 ) {
   if $internal_port == undef {
     if $public_protocol == 'https' {
-      fail('you must set internal_port if using https')
+      # fail('you must set internal_port if using https')
     }
     $real_internal_port = $public_port
   } else {
