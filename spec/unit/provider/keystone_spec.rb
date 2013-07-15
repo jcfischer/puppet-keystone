@@ -73,11 +73,11 @@ describe Puppet::Provider::Keystone do
       klass.get_admin_endpoint.should == 'http://127.0.0.1:35357/v2.0/'
     end
 
-    it 'should use internal_port if ssl is enabled' do
-      mock = {'DEFAULT' => {'bind_host' => '192.168.56.210', 'internal_port' => '12345' }, 'ssl' => {'enable' => 'True'}}
+    it 'should use https if ssl is enabled' do
+      mock = {'DEFAULT' => {'bind_host' => '192.168.56.210', 'admin_port' => '35357' }, 'ssl' => {'enable' => 'True'}}
       Puppet::Util::IniConfig::File.expects(:new).returns(mock)
       mock.expects(:read).with('/etc/keystone/keystone.conf')
-      klass.get_admin_endpoint.should == 'http://192.168.56.210:12345/v2.0/'
+      klass.get_admin_endpoint.should == 'https://192.168.56.210:35357/v2.0/'
     end
 
     describe 'when testing keystone connection retries' do
