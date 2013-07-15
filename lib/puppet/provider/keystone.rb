@@ -19,6 +19,8 @@ class Puppet::Provider::Keystone < Puppet::Provider
   end
 
   def self.get_admin_endpoint
+    admin_endpoint = keystone_file['DEFAULT']['admin_endpoint'] ? keystone_file['DEFAULT']['admin_endpoint'].strip : nil
+    return admin_endpoint if admin_endpoint
     admin_port = keystone_file['DEFAULT']['admin_port'] ? keystone_file['DEFAULT']['admin_port'].strip : '35357'
     ssl = keystone_file['ssl'] && keystone_file['ssl']['enable'] ? keystone_file['ssl']['enable'].downcase : false
     protocol = ssl ? 'https' : 'http'
